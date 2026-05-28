@@ -73,11 +73,11 @@ dev = [
 shred = "shredcli.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/takshkothari/shred-cli"
-Documentation = "https://github.com/takshkothari/shred-cli#readme"
-Repository = "https://github.com/takshkothari/shred-cli"
-Issues = "https://github.com/takshkothari/shred-cli/issues"
-Changelog = "https://github.com/takshkothari/shred-cli/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/Chessing234/shred-cli"
+Documentation = "https://github.com/Chessing234/shred-cli#readme"
+Repository = "https://github.com/Chessing234/shred-cli"
+Issues = "https://github.com/Chessing234/shred-cli/issues"
+Changelog = "https://github.com/Chessing234/shred-cli/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 where = ["."]

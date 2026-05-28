@@ -52,7 +52,7 @@ Initial release.
 - Cross-platform daemon (`start` / `stop` / `status`)
 - Configuration file support and core test suite
 
-[Unreleased]: https://github.com/takshkothari/shred-cli/compare/v0.2.1...HEAD
-[0.2.1]: https://github.com/takshkothari/shred-cli/releases/tag/v0.2.1
-[0.2.0]: https://github.com/takshkothari/shred-cli/releases/tag/v0.2.0
-[0.1.0]: https://github.com/takshkothari/shred-cli/releases/tag/v0.1.0
+[Unreleased]: https://github.com/Chessing234/shred-cli/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/Chessing234/shred-cli/releases/tag/v0.2.1
+[0.2.0]: https://github.com/Chessing234/shred-cli/releases/tag/v0.2.0
+[0.1.0]: https://github.com/Chessing234/shred-cli/releases/tag/v0.1.0
