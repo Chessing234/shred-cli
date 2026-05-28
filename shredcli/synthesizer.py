@@ -22,7 +22,7 @@ try:
 
     _HAS_AUDIO = True
     _HAS_SOUNDDEVICE = True
-except ImportError:
+except (ImportError, OSError):
     np = None  # type: ignore
     sd = None  # type: ignore
     try:
