@@ -1,0 +1,37 @@
+{
+  "_comment": "Shred-CLI Configuration File - Edit to customize behavior",
+  "wpm_to_bpm": {
+    "ranges": [
+      {"wpm_min": 0, "wpm_max": 20, "bpm_min": 40, "bpm_max": 80},
+      {"wpm_min": 20, "wpm_max": 60, "bpm_min": 80, "bpm_max": 120},
+      {"wpm_min": 60, "wpm_max": 100, "bpm_min": 120, "bpm_max": 160},
+      {"wpm_min": 100, "wpm_max": 9999, "bpm_min": 160, "bpm_max": 200}
+    ]
+  },
+  "timing": {
+    "smoothing_alpha": 0.2,
+    "update_interval_ms": 500,
+    "idle_threshold_seconds": 3.0,
+    "slowdown_duration_seconds": 2.0,
+    "min_bpm": 40.0,
+    "max_bpm": 200.0
+  },
+  "listener": {
+    "window_size": 10
+  },
+  "midi": {
+    "port_name": "ShredCLI",
+    "tick_ms": 10,
+    "note_duration_factor": 0.9
+  },
+  "velocity": {
+    "bass": {"min": 90, "max": 110},
+    "mid": {"min": 60, "max": 80},
+    "treble": {"min": 70, "max": 95},
+    "jitter": 10
+  },
+  "arpeggio": {
+    "chord_duration_beats": 8,
+    "subdivisions_per_beat": 4
+  }
+}
