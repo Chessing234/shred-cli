@@ -33,6 +33,9 @@ jobs:
           pip install -e ".[all,dev]"
 
       - name: Run tests
+        env:
+          # pynput may still be imported by optional smoke paths; dummy avoids X11.
+          PYNPUT_BACKEND: dummy
         run: python -m pytest tests/ -v --tb=short
 
       - name: Smoke test CLI
@@ -58,8 +61,11 @@ jobs:
           python -m build
 
       - name: Verify wheel installs
+        env:
+          PYNPUT_BACKEND: dummy
         run: |
-          pip install dist/*.whl
+          pip install "dist/*.whl[all]"
+          pip install pytest
           shred --version
           python -m pytest tests/ -q
 

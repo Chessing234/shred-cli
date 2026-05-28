@@ -7,9 +7,14 @@ from __future__ import annotations
 import threading
 import time
 from collections import deque
-from typing import Callable, Optional
+from typing import Any, Callable, Optional
 
-from pynput import keyboard
+
+def _keyboard_listener(**kwargs: Any) -> Any:
+    """Lazy import so headless CI can collect tests without an X display."""
+    from pynput import keyboard
+
+    return keyboard.Listener(**kwargs)
 
 
 class WpmCalculator:
@@ -70,7 +75,7 @@ class KeyListener:
         self._on_keystroke = on_keystroke
         self._on_start = on_start
         self._on_stop = on_stop
-        self._listener: Optional[keyboard.Listener] = None
+        self._listener: Optional[Any] = None
         self._running = False
         self._lock = threading.Lock()
 
@@ -87,7 +92,7 @@ class KeyListener:
             if self._running:
                 return
             self._running = True
-            self._listener = keyboard.Listener(
+            self._listener = _keyboard_listener(
                 on_press=self._on_press,
                 on_release=None,
                 suppress=False,

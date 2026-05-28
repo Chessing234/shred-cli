@@ -127,7 +127,7 @@ class TestKeyListener:
         listener = KeyListener(on_keystroke=callback)
         assert listener is not None
 
-    @patch('shredcli.listener.keyboard.Listener')
+    @patch("shredcli.listener._keyboard_listener")
     def test_start_creates_listener(self, mock_listener_class):
         mock_listener = MagicMock()
         mock_listener_class.return_value = mock_listener
@@ -139,7 +139,7 @@ class TestKeyListener:
         mock_listener_class.assert_called_once()
         mock_listener.start.assert_called_once()
 
-    @patch('shredcli.listener.keyboard.Listener')
+    @patch("shredcli.listener._keyboard_listener")
     def test_stop_stops_listener(self, mock_listener_class):
         mock_listener = MagicMock()
         mock_listener_class.return_value = mock_listener
