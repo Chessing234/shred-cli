@@ -555,16 +555,6 @@ def themes(list_themes, preview):
         click.echo("Synthesizer not available. Install: pip install sounddevice numpy")
         return
     
-    if list_themes:
-        click.echo("\n🎹 Available Sound Themes:")
-        click.echo("=" * 40)
-        for name, theme in THEMES.items():
-            click.echo(f"\n  {name}")
-            click.echo(f"    Waveform: {theme.waveform.value}")
-            click.echo(f"    Character: {theme.name}")
-        click.echo("\nUsage: shred start --synth --theme <name>")
-        return
-    
     if preview:
         if preview not in THEMES:
             click.echo(f"Unknown theme: {preview}")
@@ -584,8 +574,16 @@ def themes(list_themes, preview):
             time.sleep(1)
             synth.stop()
             click.echo("Preview complete!")
-    else:
-        click.echo("Use --list to see themes or --preview <name> to preview.")
+        return
+
+    # Default: list themes (also when --list is passed)
+    click.echo("\n🎹 Available Sound Themes:")
+    click.echo("=" * 40)
+    for name, theme in THEMES.items():
+        click.echo(f"\n  {name}")
+        click.echo(f"    Waveform: {theme.waveform.value}")
+        click.echo(f"    Character: {theme.name}")
+    click.echo("\nUsage: shred start --synth --theme <name>")
 
 
 @cli.command()
@@ -639,14 +637,26 @@ def export(list_recordings, export, play, delete):
 @cli.command()
 @click.option("--duration", default=30, help="Demo duration in seconds.")
 @click.option("--theme", default="synthwave", help="Sound theme for demo.")
-def demo(duration, theme):
+@click.option("--synth/--no-synth", default=True, help="Use built-in synthesizer (default: on).")
+@click.option("--dashboard/--no-dashboard", default=False, help="Show live TUI dashboard.")
+def demo(duration, theme, synth, dashboard):
     """Run an automated demo mode (types for you!)."""
-    click.echo(f"🎸 Starting demo mode for {duration} seconds...")
+    if synth and not _HAS_SYNTH:
+        click.echo("Synthesizer not available. Install: pip install 'shred-cli[all]'")
+        sys.exit(1)
+
+    features = []
+    if synth:
+        features.append(f"synth ({theme})")
+    if dashboard:
+        features.append("dashboard")
+    feat = f" ({', '.join(features)})" if features else ""
+
+    click.echo(f"🎸 Starting demo mode for {duration} seconds{feat}...")
     click.echo("Sit back and enjoy the show!")
-    
-    # Start with synth and dashboard
+
     def run_demo():
-        _run_main(use_dashboard=True, use_synth=True, theme=theme)
+        _run_main(use_dashboard=dashboard, use_synth=synth, theme=theme)
     
     # Start in background thread
     demo_thread = threading.Thread(target=run_demo)
@@ -683,9 +693,16 @@ def demo(duration, theme):
     typer.join(duration)
     
     _stop_requested.set()
+    demo_thread.join(timeout=5.0)
+    _on_stop()
     click.echo("\n✨ Demo complete!")
+
+
+def main() -> None:
+    """Console entry point for setuptools."""
+    cli()
 
 
 # Compatibility for direct module run
 if __name__ == "__main__":
-    cli()
+    main()
