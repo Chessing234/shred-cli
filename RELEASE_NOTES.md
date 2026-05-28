@@ -33,5 +33,5 @@ shred demo --synth --theme 8bit --duration 30
 
 ## Links
 
-- Repository: https://github.com/takshkothari/shred-cli
-- Changelog: https://github.com/takshkothari/shred-cli/blob/main/CHANGELOG.md
+- Repository: https://github.com/Chessing234/shred-cli
+- Changelog: https://github.com/Chessing234/shred-cli/blob/main/CHANGELOG.md

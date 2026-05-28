@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![CI](https://github.com/takshkothari/shred-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/takshkothari/shred-cli/actions/workflows/ci.yml)
+[![CI](https://github.com/Chessing234/shred-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/Chessing234/shred-cli/actions/workflows/ci.yml)
 
 ```
      ╔═══════════════════════════════════════════════════════════╗
@@ -126,7 +126,7 @@ Runtime data: `~/.shredcli/` (PID, logs, stats, recordings).
 ## Development
 
 ```bash
-git clone https://github.com/takshkothari/shred-cli.git
+git clone https://github.com/Chessing234/shred-cli.git
 cd shred-cli
 pip install -e ".[all,dev]"
 pytest tests/ -v
@@ -136,4 +136,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-MIT © [Taksh Kothari](https://github.com/takshkothari)
+MIT © [Taksh Kothari](https://github.com/Chessing234)
