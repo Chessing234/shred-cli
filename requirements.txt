@@ -1,0 +1,24 @@
+# Shred-CLI core dependencies
+pynput>=1.7
+mido>=1.3
+python-rtmidi>=1.5
+click>=8.0
+
+# Optional: TUI Dashboard (beautiful real-time visualization)
+rich>=13.0
+
+# Optional: Built-in synthesizer (no external MIDI needed!)
+# Choose one:
+sounddevice>=0.4
+numpy>=1.24
+# OR simpler alternative:
+# simpleaudio>=1.0
+
+# Optional: Web dashboard (alternative to TUI)
+# flask>=2.0
+
+# Development dependencies
+# pytest>=7.0
+# black>=23.0
+# flake8>=6.0
+# mypy>=1.0
