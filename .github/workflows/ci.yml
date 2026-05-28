@@ -64,7 +64,8 @@ jobs:
         env:
           PYNPUT_BACKEND: dummy
         run: |
-          pip install "dist/*.whl[all]"
+          WHEEL=$(ls dist/*.whl | head -1)
+          pip install "${WHEEL}[all]"
           pip install pytest
           shred --version
           python -m pytest tests/ -q
