@@ -30,6 +30,7 @@ from shredcli.daemon import (
 from shredcli.listener import AutoSlowdown, KeyListener, WpmCalculator, WpmSmoother
 from shredcli.player import MidiPlayerThread, ALL_CHANNELS
 from shredcli.theory import PROGRESSION
+from shredcli import __version__
 
 # Optional imports for hackathon features
 try:
@@ -51,10 +52,11 @@ except ImportError:
     _HAS_SYNTH = False
 
 try:
-    from shredcli.recorder import get_recorder, MidiRecorder
+    from shredcli.recorder import get_recorder, MidiRecorder, SessionPlayer
     _HAS_RECORDER = True
 except ImportError:
     _HAS_RECORDER = False
+    SessionPlayer = None  # type: ignore
 
 try:
     import mido
@@ -393,7 +395,7 @@ def _run_main(use_dashboard: bool = False, use_synth: bool = False,
 def cli(ctx, version):
     """Shred-CLI: type fast, shred harder. 🎸⌨️"""
     if version:
-        click.echo("Shred-CLI v0.2.1")
+        click.echo(f"Shred-CLI v{__version__}")
         sys.exit(0)
     
     if ctx.invoked_subcommand is None:
@@ -628,7 +630,32 @@ def export(list_recordings, export, play, delete):
             click.echo(f"Invalid session index: {delete}")
     
     elif play is not None:
-        click.echo("Playback not yet implemented in CLI.")
+        sessions = recorder.get_sessions()
+        if play < 0 or play >= len(sessions):
+            click.echo(f"Invalid session index: {play}")
+            return
+        session = sessions[play]
+        if not _HAS_SYNTH:
+            click.echo("Playback needs the synth extras: pip install 'shred-cli[all]'")
+            return
+        synth = create_synthesizer("classical_guitar")
+        if not synth:
+            click.echo("Could not start synthesizer.")
+            return
+
+        def on_event(msg_type: str, channel: int, note: int, velocity: int) -> None:
+            if msg_type == "note_on":
+                synth.note_on(channel, note, velocity)
+            elif msg_type == "note_off":
+                synth.note_off(channel, note)
+
+        click.echo(f"Playing session {play} ({session.duration():.1f}s)...")
+        synth.start()
+        try:
+            SessionPlayer(output_callback=on_event).play_session(session)
+        finally:
+            synth.stop()
+        click.echo("Done.")
     
     else:
         click.echo("Use --list to see recordings or --export <index> to save as MIDI.")

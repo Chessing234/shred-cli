@@ -1,139 +1,67 @@
 # Shred-CLI
 
-**Type fast. Shred harder.** A background CLI daemon that turns your typing speed into live classical-guitar arpeggios.
+Type fast, shred harder. Shred-CLI runs in the background, watches how fast you type, and plays classical-guitar arpeggios that speed up with your WPM. Faster typing → higher BPM → louder shredding.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![CI](https://github.com/Chessing234/shred-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/Chessing234/shred-cli/actions/workflows/ci.yml)
 
-```
-     ╔═══════════════════════════════════════════════════════════╗
-     ║     🎸  SHRED-CLI  —  Type → WPM → BPM → Arpeggios  🎸    ║
-     ╚═══════════════════════════════════════════════════════════╝
-
-      ⌨️  keystrokes          ♪  tempo follows you
-      🎸  Am → Dm → E7 → F    📈  stats, XP, achievements
-```
-
-## Install
-
-**macOS (recommended):** install PortAudio first, then the package.
+## Try it (macOS)
 
 ```bash
 brew install portaudio
 pip install "shred-cli[all]"
-```
 
-**Linux (Debian/Ubuntu):**
-
-```bash
-sudo apt-get install -y libasound2-dev portaudio19-dev
-pip install "shred-cli[all]"
-```
-
-**Minimal (external MIDI only, no built-in audio):**
-
-```bash
-pip install shred-cli
-```
-
-## Quickstart
-
-```bash
-# 1. Built-in synth — no MIDI setup required
 shred start --no-daemon --synth --theme synthwave
-
-# 2. See your lifetime stats
-shred stats
-
-# 3. Run a 30-second auto-demo
-shred demo --synth --theme synthwave --duration 30
 ```
 
-Press `Ctrl+C` to stop when running in the foreground.
+Type in any app. `Ctrl+C` to quit.
 
-## Features
+No PyPI yet? Use the [latest release wheel](https://github.com/Chessing234/shred-cli/releases/latest) instead of `pip install shred-cli`.
 
-- **Global keyboard listener** — tracks WPM across all apps (never blocks your typing)
-- **WPM → BPM mapping** — four tempo zones from Adagio to Presto
-- **Grade 8 guitar patterns** — p-i-m-a, Alzapúa, tremolo, rasgueado
-- **Chord progression** — Am → Dm → E7 → F → C → G
-- **Built-in synthesizer** — six themes, no DAW required
-- **Rich TUI dashboard** — live BPM, WPM, chords, XP
-- **Analytics & achievements** — persisted in `~/.shredcli/`
-- **MIDI recording** — export sessions as `.mid`
-- **Cross-platform daemon** — macOS, Linux, Windows
+**Linux:** `sudo apt install libasound2-dev portaudio19-dev`, then the same `pip` line.
 
-### Sound themes
+## What it does
 
-| Theme | Style |
-|-------|--------|
-| `classical_guitar` | Nylon-string fingerstyle |
-| `piano` | Grand piano |
-| `synthwave` | Retro saw synth |
-| `8bit` | Chiptune square waves |
-| `pad` | Ambient sine pad |
-| `pluck` | Harp-like plucks |
+- Listens to keystrokes globally (doesn't block your typing)
+- Maps typing speed to tempo (slow crawl → full presto)
+- Cycles chords (Am → Dm → E7 → F → C → G) with real arpeggio patterns
+- Optional built-in synth (`--synth`) — no MIDI rig required
+- Optional dashboard (`--dashboard`), stats/XP (`shred stats`), record to `.mid` (`--record`)
 
-List themes: `shred themes`
+Themes: `classical_guitar`, `piano`, `synthwave`, `8bit`, `pad`, `pluck` — run `shred themes` to list them.
 
-## CLI reference
+## Commands
 
-| Command | Description |
-|---------|-------------|
-| `shred start` | Start the daemon |
-| `shred stop` | Stop the daemon |
-| `shred status` | Running state, BPM, WPM, chord |
-| `shred stats` | Lifetime stats and achievements |
-| `shred themes` | List synthesizer themes |
-| `shred themes --preview NAME` | Preview a theme |
-| `shred export --list` | List recorded sessions |
-| `shred export --export N` | Export session `N` to `.mid` |
-| `shred demo` | Automated typing demo |
+```
+shred start [--synth] [--theme NAME] [--dashboard] [--record] [--no-daemon]
+shred stop
+shred status
+shred stats
+shred themes [--preview NAME]
+shred export --list
+shred export --export 0
+shred export --play 0
+shred demo --synth --duration 30
+```
 
-### `shred start` flags
+`shred demo` fakes keystrokes for you — handy for showing someone how it works.
 
-| Flag | Description |
-|------|-------------|
-| `--no-daemon` | Foreground mode (debugging) |
-| `--synth` | Built-in audio engine |
-| `--theme NAME` | Synth theme (see table above) |
-| `--dashboard` | Rich live TUI |
-| `--record` | Record session for MIDI export |
+## Heads up (macOS especially)
 
-### `shred demo` flags
+- **Accessibility:** give your terminal Accessibility permission or WPM stays at 0. System Settings → Privacy & Security → Accessibility.
+- **Sound:** synth mode needs PortAudio (`brew install portaudio`) and speakers/headphones.
+- **MIDI mode** (no `--synth`): you need a virtual MIDI port — on Mac, turn on the IAC Driver in Audio MIDI Setup.
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--duration SEC` | `30` | Demo length |
-| `--theme NAME` | `synthwave` | Synth theme |
-| `--synth / --no-synth` | on | Built-in audio |
-| `--dashboard / --no-dashboard` | off | Live TUI |
+Config lives in `~/.shredcli/` if you want to tweak things (`examples/config.json`).
 
-## Configuration
-
-Optional config: `~/.shredcli/config.json` (see `examples/config.json`).
-
-Runtime data: `~/.shredcli/` (PID, logs, stats, recordings).
-
-## Known limitations
-
-1. **macOS Accessibility** — `pynput` needs **System Settings → Privacy & Security → Accessibility** for the terminal or Python. Without it, WPM stays at zero and tempo does not rise.
-2. **Audio device** — built-in synth needs a working output device and PortAudio (`brew install portaudio` on macOS).
-3. **MIDI mode** — external MIDI requires a virtual port (macOS: enable **IAC Driver** in Audio MIDI Setup).
-4. **Daemon + dashboard** — the Rich dashboard is intended for foreground (`--no-daemon`); background daemon mode writes status to `~/.shredcli/status.json` instead.
-
-## Development
+## Hack on it
 
 ```bash
 git clone https://github.com/Chessing234/shred-cli.git
 cd shred-cli
 pip install -e ".[all,dev]"
-pytest tests/ -v
+pytest
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## License
-
-MIT © [Taksh Kothari](https://github.com/Chessing234)
+MIT — Taksh Kothari

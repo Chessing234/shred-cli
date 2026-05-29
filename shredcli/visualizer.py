@@ -91,7 +91,7 @@ class SimpleVisualizer:
         lines = [
             "",
             self._color("╔═══════════════════════════════════════════════════════════╗", "blue"),
-            self._color("║           🎸  SHRED-CLI  v0.2.0  🎸                      ║", "bold"),
+            self._color("║           🎸  SHRED-CLI  v0.2.1  🎸                      ║", "bold"),
             self._color("╚═══════════════════════════════════════════════════════════╝", "blue"),
             "",
             f"  {self._color('♪ Tempo', 'blue')}          {self._color('⌨️ WPM', 'white')}           {self._color('🎸 Guitar', 'magenta')}",

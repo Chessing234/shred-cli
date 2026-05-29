@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Production release: bug fixes, synth routing, persistence, CI/CD, and public packaging.
 
+### Changed
+
+- Shorter, clearer README
+- `shred export --play` replays recordings through the built-in synth
+- Version string comes from package metadata; docs URLs aligned with GitHub repo
+
 ### Fixed
 
 - Synthesizer: `_HAS_SOUNDDEVICE` NameError when sounddevice is installed

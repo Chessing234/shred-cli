@@ -6,7 +6,7 @@ Thank you for your interest in contributing to Shred-CLI! This document provides
 
 1. **Fork and clone the repository:**
    ```bash
-   git clone https://github.com/your-username/shred-cli.git
+   git clone https://github.com/Chessing234/shred-cli.git
    cd shred-cli
    ```
 
